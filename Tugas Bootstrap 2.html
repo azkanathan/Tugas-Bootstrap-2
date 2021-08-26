@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    
+    <title>Hello, world!</title>
+    <style>
+        .jumbotron{
+            height: 400px;
+            background-image: url(https://images.pexels.com/photos/380782/pexels-photo-380782.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500);
+            background-size: cover;
+            background-position-y: 1200px;
+        }
+        .judullist{
+            height: 40px;
+        }
+        .card{
+            float: left;
+            margin-right: 20px;
+            
+        }
+    </style>
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid text-white">
+        <div class="container">
+          <h1 class="display-4">Watch</h1>
+          <p class="lead">Wearing a watch will make you more charming.</p>
+        </div>
+      </div>
+      </div>
+
+      <div class="container">
+          <div class="row">
+            <div class="col-4">
+                <div class="judullist mt-4 bg-dark rounded text-center text-white">List Barang</div>
+               
+                <div class="listkeranjangjam" id="listkeranjangjam">
+                    
+                </div>
+                  
+                  
+                  <table width="100%">
+                      <tbody>
+                          <tr>
+                              <td>Diskon (5%)</td>
+                              <td>Rp. <span id="discount"></span></td>
+                          </tr>
+                          <tr>
+                            <td>PPN (10%)</td>
+                            <td>Rp. <span id="pajak"></span></td>
+                        </tr>
+                        <tr class="bg-dark text-white">
+                            <td>Total Bayar(5%)</td>
+                            <td>Rp. <span id="totalbayar"></span></td>
+                        </tr>
+                      </tbody>
+                  </table>
+
+                  <button type="button" class="btn btn-primary mt-3">Bayar</button>
+              </div>
+            
+            
+              <div class="col-8" id="listjam">
+                
+                
+            </div>
+          </div>
+        </div>
+
+
+
+        <script>
+            var namajam = ['Rolex Mega Dark','Rolex Silver Magma','Rolex Gold Series']
+            var hargajam = [500000,600000,400000]
+            var gambarjam = [
+            "https://images.pexels.com/photos/1353065/pexels-photo-1353065.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                "https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                "https://images.pexels.com/photos/3809175/pexels-photo-3809175.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            ]
+            var listjam = document.getElementById('listjam')
+            var listkeranjangjam = document.getElementById('listkeranjangjam')
+            
+            var namajam_keranjang = []
+            var hargajam_keranjang = []
+
+            function showlistjam(){
+                listjam.innerHTML = ""
+                for (let i = 0; i < namajam.length; i++) {
+                    listjam.innerHTML +='<div class="card" style="width: 15rem;">'+
+                    '<img src="'+ gambarjam[i] +'"s'+
+                    '<div class="card-body">'+
+                      '<h5 class="card-title">'+ namajam[i] +'</h5>'+
+                      '<p class="card-text">'+ hargajam[i] +'</p>'+
+                      '<a href="#" class="btn btn-primary" onclick="addlistjam('+ i +')">Buy</a>'+
+                    '</div>'+
+                    '</div>'
+                }
+            }
+
+            function addlistjam(id){
+                namajam_keranjang.push(namajam[id])
+                hargajam_keranjang.push(hargajam[id])
+
+                
+
+                showlistkeranjangjam()
+            }
+            
+            var tampilandiscount = document.getElementById('discount')
+            var tampilanpajak = document.getElementById('pajak')
+            var tampilantotalbayar = document.getElementById('totalbayar')
+            
+            
+            function showlistkeranjangjam(){
+                listkeranjangjam.innerHTML=""
+
+                var discount = 0
+                var pajak = 0
+                var hargatotal = 0
+                var totalbayar = 0
+            
+                for (let i = 0; i < namajam_keranjang.length; i++) {
+                    listkeranjangjam.innerHTML +='<div class="card mt-3" style="width: 22rem;">'+
+                        '<div class="card-body">'+
+                        '<h5 class="card-title">'+namajam_keranjang[i]+'</h5>'+
+                        '<p class="card-text">'+hargajam_keranjang[i]+'</p>'+
+                        '<p>Qty : 1</p>'+
+                        '<a href="#" class="btn btn-danger float-end" onclick="deletejam('+ i +')">Hapus</a>'+
+                      '</div>'+
+                    '</div>'
+
+                    hargatotal = hargajam_keranjang[i] + hargatotal
+
+                    pajak = hargatotal*0.1
+
+                    if(totalbayar>500000){
+                        discount = totalbayar*0.05
+                    }else{
+                        discount = 0
+                    }
+                    totalbayar = hargatotal-discount-pajak
+                    
+                    tampilanpajak.innerHTML = pajak
+                    tampilandiscount.innerHTML = discount
+                    tampilantotalbayar.innerHTML = totalbayar
+                }
+            }
+            showlistjam()
+
+            function deletejam(id){
+                namajam_keranjang.splice(id,1)
+                hargajam_keranjang.splice(id,1)
+                
+                showlistkeranjangjam()
+            }
+
+
+
+
+
+        </script>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
